@@ -5,6 +5,29 @@
  */
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { isAbsolute, join, normalize } from "node:path";
+import { existsSync as nodeExists, readFileSync as nodeRead } from "node:fs";
+import { join as nodeJoin } from "node:path";
+
+// prifly-extension.json: the manifest prifly reads when the extension is installed.
+{
+  const manifestPath = nodeJoin(import.meta.dir, "..", "prifly-extension.json");
+  const bad: string[] = [];
+  try {
+    const m = JSON.parse(nodeRead(manifestPath, "utf8")) as Record<string, unknown>;
+    if (typeof m.id !== "string" || !/^[a-z0-9][a-z0-9-]*$/.test(m.id)) bad.push("id: lower-case words joined by hyphens");
+    if (typeof m.name !== "string" || m.name === "") bad.push("name: required text");
+    if (typeof m.version !== "string" || m.version === "") bad.push("version: required text");
+    if (typeof m.mockupStacks !== "string" || m.mockupStacks === "") bad.push("mockupStacks: required folder name");
+    else if (!nodeExists(nodeJoin(import.meta.dir, "..", m.mockupStacks))) bad.push(`mockupStacks: folder ${m.mockupStacks} does not exist`);
+  } catch (caught) {
+    bad.push(`not readable JSON: ${caught instanceof Error ? caught.message : String(caught)}`);
+  }
+  if (bad.length > 0) {
+    for (const problem of bad) console.log(`FAIL  prifly-extension.json: ${problem}`);
+    process.exit(1);
+  }
+}
+
 
 const root = join(import.meta.dir, "..", "mockup-stacks");
 const problems: string[] = [];

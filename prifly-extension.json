@@ -1,0 +1,7 @@
+{
+  "id": "mockup-bevy",
+  "name": "Bevy mockup recipe",
+  "description": "A prifly mockup recipe for Bevy, the Rust game engine, built to wasm.",
+  "version": "0.1.0",
+  "mockupStacks": "mockup-stacks"
+}

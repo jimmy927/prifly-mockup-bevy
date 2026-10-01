@@ -1,21 +1,15 @@
 # prifly-mockup-bevy
 
 A prifly mockup recipe for **Bevy**, the Rust game engine, built to wasm. prifly
-does not cover Bevy itself; this pack adds it. A mockup of a Bevy scene is rendered by real Bevy (compiled to
+does not cover Bevy itself; this extension adds it. A mockup of a Bevy scene is rendered by real Bevy (compiled to
 `wasm32-unknown-unknown`, drawn through WebGL2) and packaged as one self-contained HTML file.
 
 ## Use it in prifly
 
-Add the pack to `packs.json` in prifly's mockup-stacks folder (`~/.local/share/prifly/mockup-stacks/packs.json`):
-
-```json
-{ "packs": [{ "name": "bevy", "url": "https://github.com/jimmy927/prifly-mockup-bevy.git" }] }
-```
-
-or set `PRIFLY_MOCKUP_STACK_PACKS=bevy=https://github.com/jimmy927/prifly-mockup-bevy.git` for the host. prifly clones
-it in the background and pulls at most once a day; the recipe then shows up in `mockup_recipe` for any project that has
-`bevy` in its `Cargo.toml` (or a `Trunk.toml`). A project can also copy `mockup-stacks/bevy.md` into its own
-`.prifly/mockup-stacks/`.
+This repo is a prifly extension. In prifly, open **Extensions**, install from the git URL
+`https://github.com/jimmy927/prifly-mockup-bevy.git`, then enable it. Sessions then get the recipe from
+`mcp__prifly__mockup_recipe` (layer order: project `.prifly/mockup-stacks/` > user folder > enabled extensions >
+built-in). A project can also copy `mockup-stacks/bevy.md` into its own `.prifly/mockup-stacks/`.
 
 ## The recipe in one paragraph
 
@@ -39,9 +33,7 @@ gotchas are in [`mockup-stacks/bevy.md`](mockup-stacks/bevy.md).
 bun scripts/check.ts
 ```
 
-From a prifly checkout the full checker also works on this folder:
-`bun run mockup-stacks:check --layer project --project <path to this repo>` after copying `mockup-stacks/` to
-`<path>/.prifly/mockup-stacks/`, or by cloning the repo into the packs folder.
+From a prifly checkout, `bun run mockup-stacks:check --dir <path-to-this-repo>/mockup-stacks` runs the full checker on this folder.
 
 ## Screenshots
 
