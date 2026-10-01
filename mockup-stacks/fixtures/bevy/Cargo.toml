@@ -1,0 +1,24 @@
+[package]
+name = "star-catcher"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+# 2d + ui only: no 3d, no audio, no gilrs. default_font and webgl2 come with the 2d/ui platform set.
+bevy = { version = "0.19.1", default-features = false, features = ["2d", "ui"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+js-sys = "0.3"
+web-sys = { version = "0.3", features = ["Window", "Location"] }
+
+[profile.release]
+opt-level = "z"
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = "debuginfo"
+
+# Dependencies are optimised even in dev builds so a native `cargo run` is playable.
+[profile.dev.package."*"]
+opt-level = 3
